@@ -22,7 +22,7 @@ function Transfer(): JSX.Element {
   }, []);
 
   return (
-    <>
+    <div className="mt-8">
       <SidebarComponent />
       <div className="grid">
         <div className="col text-center">
@@ -52,7 +52,7 @@ function Transfer(): JSX.Element {
           </DataTable>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

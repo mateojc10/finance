@@ -64,7 +64,7 @@ export const transactionData: TransactionData[] = [
     date: "2022-07-15",
     type: "Ingreso",
     amount: 1000,
-    description: "Ingreso inicial",
+    description: "Ganancía de sorteo #15",
     withdrawalRequestDate: "2022-07-15",
   },
   {
@@ -73,7 +73,7 @@ export const transactionData: TransactionData[] = [
     date: "2022-07-15",
     type: "Ingreso",
     amount: 1000,
-    description: "Ingreso inicial",
+    description: "Retiro sorteo #10",
     withdrawalRequestDate: "2022-07-15",
   },
   {
@@ -82,7 +82,7 @@ export const transactionData: TransactionData[] = [
     date: "2022-07-15",
     type: "Ingreso",
     amount: 1000,
-    description: "Ingreso inicial",
+    description: "Retiro sorteo #10",
     withdrawalRequestDate: "2022-07-15",
   },
 ];

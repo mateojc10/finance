@@ -1,0 +1,13 @@
+.floating-div {
+  position: absolute;
+  top: 50%; /* Posiciona el div en la mitad vertical */
+  left: 0; /* Alinea el div a la izquierda */
+  transform: translateY(-50%); /* Centra el div verticalmente */
+  padding: 10px;
+}
+body {
+  background-color: #34495e; /* Color de fondo oscuro */
+  color: #ffffff; /* Color de texto claro */
+  margin: 0;
+  font-family: Arial, sans-serif;
+}

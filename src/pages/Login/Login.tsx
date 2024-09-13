@@ -8,7 +8,7 @@ function Login(): JSX.Element {
   return (
     <div className="grid background-image">
       <div className="col-6 md:col-6 sm:col-12 form-login">
-        <h2 className="text-center">Acceso</h2>
+        <h2 className="text-center">Bifinancing</h2>
         <FormLogin />
       </div>
     </div>

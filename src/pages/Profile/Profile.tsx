@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ProfileData } from "../../utilities/datosbase";
 import { ProfileUserData } from "../../models/enviroment.model";
 import { Button } from "primereact/button";
+import { Badge } from "primereact/badge";
 
 function Profile(): JSX.Element {
   const idUser = localStorage.getItem("idUser");
@@ -19,12 +20,16 @@ function Profile(): JSX.Element {
     setUserData(findUserData);
   }, []);
   return (
-    <>
+    <div className="mt-8">
       <SidebarComponent />
       {userData && (
         <div className="grid text-center">
           <div className="col-12">
-            <Avatar icon="pi pi-user" size="xlarge" shape="circle" />
+            <Avatar icon="pi pi-user" size="xlarge" shape="circle"></Avatar>
+            <Badge
+              value={`id: ${userData?.idUser}`}
+              style={{ right: "5vh" }}
+            ></Badge>
             <div className="col">
               <label className="ml-3">Nombre: </label>
               <InputText
@@ -50,14 +55,6 @@ function Profile(): JSX.Element {
               value={userData?.email}
             ></InputText>
           </div>
-          <div className="col-12">
-            <label className="ml-3">Contraseña: </label>
-            <InputText
-              className="p-field"
-              disabled={editShape}
-              value={userData?.password}
-            ></InputText>
-          </div>
 
           <div className="col-12">
             <label className="ml-3">Teléfono: </label>
@@ -79,7 +76,7 @@ function Profile(): JSX.Element {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

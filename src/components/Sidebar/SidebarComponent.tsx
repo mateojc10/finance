@@ -1,10 +1,12 @@
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Ripple } from "primereact/ripple";
-import { StyleClass } from "primereact/styleclass";
+import "./css/sidebar.style.css";
+import { Navigate, useNavigate } from "react-router-dom";
 function SidebarComponent(): JSX.Element {
   const [visible, setVisible] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -93,7 +95,43 @@ function SidebarComponent(): JSX.Element {
           </div>
         )}
       ></Sidebar>
-      <Button icon="pi pi-arrow-right" onClick={() => setVisible(true)} />
+      <div className="floating-div flex-wrap gap-4">
+        <div className="flex mb-2">
+          <Button
+            tooltip="Menú"
+            icon="pi pi-bars"
+            onClick={() => setVisible(true)}
+          />
+        </div>
+        <div className="flex">
+          <Button
+            tooltip="Inicio"
+            icon="pi pi-home"
+            onClick={() => navigate("/inicio")}
+          />
+        </div>
+        <div className="flex mt-2">
+          <Button
+            tooltip="Perfil"
+            icon="pi pi-user"
+            onClick={() => navigate("/profile")}
+          />
+        </div>
+        <div className="flex mt-2">
+          <Button
+            tooltip="Transacciones"
+            icon="pi pi-chart-bar"
+            onClick={() => navigate("/transfer")}
+          />
+        </div>
+        <div className="flex mt-2">
+          <Button
+            tooltip="Soporte"
+            icon="pi  pi-wrench"
+            onClick={() => navigate("/support")}
+          />
+        </div>
+      </div>
     </>
   );
 }
