@@ -28,7 +28,6 @@ function FormLogin(): JSX.Element {
       const findProfileData = ProfileData.find(
         (user) => user.idUser === validateAccess.idUser
       );
-      console.log("findProfileData", typeof findProfileData);
       storeData("idUser", findProfileData?.idUser);
       storeData("role", findProfileData?.role);
       setValidateAccess(false);

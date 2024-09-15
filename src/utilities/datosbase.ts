@@ -4,7 +4,7 @@ import {
   TransactionData,
 } from "../models/enviroment.model";
 
-export const loginData: LoginAccessData[] = [
+export let loginData: LoginAccessData[] = [
   {
     idUser: 1,
     userName: "admin",
@@ -35,6 +35,7 @@ export let ProfileData: ProfileUserData[] = [
     role: "admin",
     userName: "admin",
     phone: "123456789",
+    state: true,
   },
   {
     idUser: 2,
@@ -45,6 +46,7 @@ export let ProfileData: ProfileUserData[] = [
     role: "basico",
     userName: "Felipe",
     phone: "123456789",
+    state: true,
   },
   {
     idUser: 3,
@@ -55,9 +57,10 @@ export let ProfileData: ProfileUserData[] = [
     role: "admin",
     userName: "luisa",
     phone: "123456789",
+    state: true,
   },
 ];
-export const transactionData: TransactionData[] = [
+export let transactionData: TransactionData[] = [
   {
     id: 1,
     idUser: 1,

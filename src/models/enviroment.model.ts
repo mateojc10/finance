@@ -13,6 +13,7 @@ export interface ProfileUserData {
   password: string;
   role: string;
   userName?: string;
+  state?: boolean;
 }
 export interface TransactionData {
   id: number;
