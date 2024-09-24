@@ -10,11 +10,14 @@
     "@types/node": "^16.18.108",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "moment": "^2.30.1",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primereact": "^10.8.2",
     "react": "^18.3.1",
+    "react-axios": "^2.0.6",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.26.2",
@@ -26,7 +29,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build:prod": "tsc && vite build --base=/reportes-mda",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "lint": "npx eslint --fix . --ext .ts,.tsx"
   },
   "eslintConfig": {
     "extends": [

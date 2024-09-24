@@ -13,6 +13,10 @@ import "primeicons/primeicons.css";
 import Profile from "./pages/Profile/Profile";
 import Transfer from "./pages/Transfer/Transfer";
 import TechnicalSupport from "./pages/TechnicalSupport/TechnicalSupport";
+import AdminUsers from "./pages/HomeAdmin/components/AdminUsers/AdminUsers";
+import AdminLottery from "./pages/HomeAdmin/components/AdminLottery/AdminLottery";
+import AdminWithdrawalRequest from "./pages/HomeAdmin/components/AdminWithdrawalRequest/AdminWithdrawalRequest";
+import AdminTechnicalSupport from "./pages/HomeAdmin/components/AdminTechnicalSupport/AdminTechnicalSupport";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -38,6 +42,28 @@ const router = createBrowserRouter([
   {
     path: "/support",
     element: <TechnicalSupport />,
+  },
+  {
+    path: "/admin",
+    element: <AdminUsers />,
+  },
+  {
+    path: "/admin/users",
+    element: <AdminUsers />,
+  },
+  {
+    path: "/admin/lottery",
+    element: <AdminLottery />,
+  },
+
+  {
+    path: "/admin/withdrawal",
+    element: <AdminWithdrawalRequest />,
+  },
+
+  {
+    path: "/admin/technical-support",
+    element: <AdminTechnicalSupport />,
   },
 ]);
 root.render(

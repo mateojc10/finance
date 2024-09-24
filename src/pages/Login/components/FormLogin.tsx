@@ -4,10 +4,10 @@ import { FloatLabel } from "primereact/floatlabel";
 import { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { loginData, ProfileData } from "../../../utilities/datosbase";
 import { storeData } from "../../../utilities/localStorage";
-import { FormAccessLogin } from "../models/login.model";
+import { AuthAccessLogin, FormAccessLogin } from "../models/login.model";
 import { useNavigate } from "react-router-dom";
+import { authValidateService } from "../services/login.service";
 
 function FormLogin(): JSX.Element {
   const [valuePassword, setValuePassword] = useState<string>("");
@@ -17,24 +17,26 @@ function FormLogin(): JSX.Element {
   const { handleSubmit } = useForm<FormAccessLogin>({ mode: "onChange" });
 
   const navigate = useNavigate();
-  const onSubmit: SubmitHandler<FormAccessLogin> = async (
-    data: FormAccessLogin
-  ) => {
-    const validateAccess = loginData.find(
-      (user) => user.userName === valueUser && user.password === valuePassword
-    );
+  const onSubmit: SubmitHandler<FormAccessLogin> = async () => {
+    try {
+      const data: AuthAccessLogin = {
+        user: valueUser,
+        password: valuePassword,
+      };
+      const response = await authValidateService(data);
 
-    if (validateAccess) {
-      const findProfileData = ProfileData.find(
-        (user) => user.idUser === validateAccess.idUser
-      );
-      storeData("idUser", findProfileData?.idUser);
-      storeData("role", findProfileData?.role);
-      setValidateAccess(false);
-      setValuePassword("");
-      setValueUser("");
-      navigate("/inicio");
-    } else {
+      if (response.data) {
+        storeData("idUser", response.data?.idUser);
+        storeData("role", response.data?.role);
+        storeData("activeSession", true);
+        setValidateAccess(false);
+        setValuePassword("");
+        setValueUser("");
+        navigate("/inicio");
+      } else {
+        setValidateAccess(true);
+      }
+    } catch (error) {
       setValidateAccess(true);
     }
   };
@@ -46,6 +48,7 @@ function FormLogin(): JSX.Element {
       <div className="m-4 p-fluid">
         <FloatLabel>
           <InputText
+            autoFocus
             name="username"
             id="username"
             value={valueUser}
@@ -75,12 +78,7 @@ function FormLogin(): JSX.Element {
         )}
       </div>
       <div className=" m-4 text-center">
-        <Button
-          className=""
-          type="submit"
-          label="ingresar"
-          disabled={!activeButton}
-        />
+        <Button type="submit" label="ingresar" disabled={!activeButton} />
       </div>
     </form>
   );

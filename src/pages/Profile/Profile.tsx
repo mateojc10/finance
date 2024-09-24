@@ -2,42 +2,66 @@ import SidebarComponent from "../../components/Sidebar/SidebarComponent";
 import { Avatar } from "primereact/avatar";
 import { InputText } from "primereact/inputtext";
 import { useEffect, useState } from "react";
-import { ProfileData } from "../../utilities/datosbase";
-import { ProfileUserData } from "../../models/enviroment.model";
 import { Button } from "primereact/button";
 import { Badge } from "primereact/badge";
 import { FormAccessLogin } from "../Login/models/login.model";
 import { useForm } from "react-hook-form";
+import {
+  getDataUserByIdservice,
+  saveDataUserService,
+} from "./services/profile.service";
+import { EditProfile } from "./models/Profile.model";
+import { ProfileUserData } from "../HomeAdmin/components/AdminUsers/models/adminUsers.model";
 
 function Profile(): JSX.Element {
   const idUser = localStorage.getItem("idUser");
-  const [userData, setUserData] = useState<ProfileUserData>();
   const [editShape, setEditShape] = useState<boolean>(true);
   const { handleSubmit } = useForm<FormAccessLogin>({ mode: "onChange" });
-  useEffect(() => {
-    const findUserData = ProfileData.find(
-      (user) => user.idUser === Number(idUser)
-    );
-    console.log("findUserData", findUserData);
+  const [dataProfile, setDataProfile] = useState<ProfileUserData>();
+  const [name, setName] = useState<string>();
+  const [lastName, setLastName] = useState<string>();
+  const [phone, setPhone] = useState<string>();
 
-    setUserData(findUserData);
+  const getDataProfile = async (): Promise<void> => {
+    try {
+      if (idUser) {
+        const response = await getDataUserByIdservice(+idUser);
+        if (response.data) {
+          setDataProfile(response.data);
+        }
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getDataProfile();
+    window.removeEventListener("beforeunload", localStorage.clear);
   }, []);
-  const onSubmit = (data: FormAccessLogin): void => {
-    console.log("data", data);
-    const findData = ProfileData.findIndex(
-      (user) => user.idUser === Number(idUser)
-    );
-    console.log("findData encontrado", findData);
+  const onSubmit = async (): Promise<void> => {
+    try {
+      const dataUpdateProfile: EditProfile = {
+        idUser: Number(idUser),
+        name: name ? String(name) : String(dataProfile?.name),
+        lastName: lastName ? String(lastName) : String(dataProfile?.lastName),
+        phone: phone ? String(phone) : String(dataProfile?.phone),
+      };
+      const response = await saveDataUserService(dataUpdateProfile);
+      if (response.statusCode < 299) {
+        getDataProfile();
+        setEditShape(true);
+      } else {
+      }
+    } catch (error) {}
   };
   return (
     <div className="mt-8">
       <SidebarComponent />
-      {userData && (
+      {dataProfile && (
         <div className="grid text-center">
           <div className="col-12">
             <Avatar icon="pi pi-user" size="xlarge" shape="circle"></Avatar>
             <Badge
-              value={`id: ${userData?.idUser}`}
+              value={`id: ${dataProfile?.idUser}`}
               style={{ right: "5vh" }}
             ></Badge>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,8 +70,10 @@ function Profile(): JSX.Element {
                 <InputText
                   className="p-field"
                   disabled={editShape}
-                  value={userData?.name}
-                  name="name"
+                  placeholder={dataProfile?.name}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setName(e.target.value);
+                  }}
                 ></InputText>
               </div>
               <div className="col">
@@ -55,26 +81,28 @@ function Profile(): JSX.Element {
                 <InputText
                   className="p-field"
                   disabled={editShape}
-                  value={userData?.lastName}
-                  name="lastName"
+                  placeholder={dataProfile?.lastName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setLastName(e.target.value);
+                  }}
                 ></InputText>
               </div>
               <div className="col-12">
-                <label className="ml-3">Correo: </label>
+                <label className="ml-3">Usuario: </label>
                 <InputText
                   className="p-field"
                   disabled
-                  value={userData?.email}
-                  name="email"
+                  placeholder={dataProfile?.user}
                 ></InputText>
               </div>
               <div className="col-12">
                 <label className="ml-3">Teléfono: </label>
                 <InputText
-                  placeholder="Teléfono"
                   disabled={editShape}
-                  value={userData?.phone}
-                  name="phone"
+                  placeholder={dataProfile?.phone}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setPhone(e.target.value);
+                  }}
                 ></InputText>
               </div>
               {!editShape && (
@@ -82,6 +110,7 @@ function Profile(): JSX.Element {
                   <Button
                     label="Guardar"
                     onClick={() => {
+                      onSubmit();
                       setEditShape(true);
                     }}
                   />

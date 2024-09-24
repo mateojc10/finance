@@ -3,7 +3,7 @@ import { Button } from "primereact/button";
 import { useState } from "react";
 import { Ripple } from "primereact/ripple";
 import "./css/sidebar.style.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function SidebarComponent(): JSX.Element {
   const [visible, setVisible] = useState<boolean>(false);
   const navigate = useNavigate();

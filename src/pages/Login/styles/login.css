@@ -1,21 +1,25 @@
-.form-login{
-    color: #fff;
-    box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
-    margin: 0 auto;
-    background-color: rgb(71, 96, 117);
-    opacity: 0.9;
-    border-radius: 10px;
-    width: 50%;
-    
+.form-login {
+  color: #ffffff;
+  box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.5);
+  margin: 0 auto;
+  background-color: rgb(98, 98, 104);
+  opacity: 0.9;
+  border-radius: 10px;
+  width: 50%;
 }
 .background-image {
-    background-image: url('../../../assets/img/fondologin.jpg');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    
+  background-image: url("../../../assets/img/fondologin.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+@media screen and (max-width: 575px) {
+  .background-image {
+    height: 110vh;
   }
+}
