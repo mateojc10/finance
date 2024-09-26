@@ -16,6 +16,7 @@ function FormCreateUser({ getAllUsersData }: Props): JSX.Element {
   const [phone, setPhone] = useState<string>("");
   const [role, setRole] = useState<string>("");
   const [disabledButton, setDisabledButton] = useState<boolean>(true);
+  const [balance, setBalance] = useState<number>(0);
 
   useEffect(() => {
     if (user && password && name && lastName && phone && role) {
@@ -33,6 +34,7 @@ function FormCreateUser({ getAllUsersData }: Props): JSX.Element {
         lastName,
         phone,
         role,
+        balance,
       };
       const response = await createUserService(data);
       if (response.statusCode < 299) {
@@ -116,6 +118,17 @@ function FormCreateUser({ getAllUsersData }: Props): JSX.Element {
             optionValue="code"
           />
         </div>
+        <div className="col-12 md:col-6 sm:col-12">
+          <InputText
+            type="number"
+            className="w-full"
+            placeholder="Saldo"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setBalance(Number(e.target.value))
+            }
+          ></InputText>
+        </div>
+
         <div className="col-12 md:col-6 sm:col-12 ">
           <Button
             className="text-center text-white"

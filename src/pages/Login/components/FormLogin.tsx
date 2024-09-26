@@ -28,11 +28,16 @@ function FormLogin(): JSX.Element {
       if (response.data) {
         storeData("idUser", response.data?.idUser);
         storeData("role", response.data?.role);
+        storeData("isAdmin", response.data?.role === "admin" ? 1 : 0);
         storeData("activeSession", true);
         setValidateAccess(false);
         setValuePassword("");
         setValueUser("");
-        navigate("/inicio");
+        if (response.data.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/inicio");
+        }
       } else {
         setValidateAccess(true);
       }

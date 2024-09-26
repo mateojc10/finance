@@ -6,8 +6,11 @@ import { WithdrawalRequest } from "../../../Transfer/models/transfer.model";
 
 import { Dialog } from "primereact/dialog";
 import FormEditWitdrawalRequest from "./components/FormEditWitdrawalRequest";
+import { useNavigate } from "react-router-dom";
 
 function AdminWithdrawalRequest(): JSX.Element {
+  const isAdminValue = localStorage.getItem("isAdmin");
+  const navigate = useNavigate();
   const [dataWithdrawalResponse, setDataWithdrawalResponse] = useState<
     WithdrawalRequest[]
   >([]);
@@ -23,6 +26,9 @@ function AdminWithdrawalRequest(): JSX.Element {
     } catch (error) {}
   };
   useEffect(() => {
+    if (isAdminValue !== "1") {
+      navigate("/");
+    }
     getAllWithdrawalRequest();
   }, []);
   return (

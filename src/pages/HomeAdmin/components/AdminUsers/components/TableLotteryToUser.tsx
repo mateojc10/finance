@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { getDataUserByIdservice } from "../../../../Profile/services/profile.service";
 import { ApiLotteryData } from "../../AdminLottery/model/adminLottery.model";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { Badge } from "primereact/badge";
+import { useState } from "react";
 
 interface Props {
   dataLotteryForUser: ApiLotteryData[];

@@ -39,6 +39,7 @@ function FormTechnicalSupport({
       </div>
       <div className="col-12 md:col-2 sm:col-12 text-center">
         <Button
+          className="text-white"
           label="Enviar"
           type="submit"
           disabled={description.length < 3}

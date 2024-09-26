@@ -32,7 +32,7 @@ function Transfer(): JSX.Element {
     <div className="mt-8">
       <SidebarComponent />
       <div className="grid">
-        <div className="col text-center ml-4">
+        <div className="col-12 md:col-12 sm:col-12 text-center ml-4">
           <h1>Historial de movimientos</h1>
         </div>
         <div className="col-12 md:col-8 sm:col-12 m-8">

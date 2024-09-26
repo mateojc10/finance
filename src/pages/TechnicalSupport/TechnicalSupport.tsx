@@ -38,14 +38,14 @@ function TechnicalSupport(): JSX.Element {
           <div className="col-12 md:col-12 sm:col-12 m-4 text-center">
             <h2>Contacta a soporte técnico</h2>
           </div>
-          <div className="col md:col-8 sm:col-12 m-5">
+          <div className="col-12 md:col-8 sm:col-12 m-5">
             <FormTechnicalSupport
               idUser={+idUser}
               getAllTechnicalSupportByUser={getAllTechnicalSupportByUser}
             />
           </div>
           {technicalSupportData.length > 0 ? (
-            <div className="col md:col-12 sm:col-12 m-4">
+            <div className="col-12 md:col-12 sm:col-12 m-4">
               <TableTechnicalSupport
                 technicalSupportData={dataTableTechnicalSupportAdapter(
                   technicalSupportData
@@ -53,7 +53,7 @@ function TechnicalSupport(): JSX.Element {
               />
             </div>
           ) : (
-            <div className="col">
+            <div className="col-12 md:col-12 sm:col-12 text-center p-error">
               <h4>Aún no tienes reportes</h4>
             </div>
           )}

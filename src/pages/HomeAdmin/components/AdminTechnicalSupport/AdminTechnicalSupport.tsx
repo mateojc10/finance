@@ -3,11 +3,13 @@ import TabMenuAdmin from "../TabMenuAdmin/TabMenuAdmin";
 import TableTechnicalSupport from "./components/TableTechnicalSupport";
 import { getAllTechnicalSupportService } from "./services/adminTechnicalSupport.service";
 import { ApiTechnicalSupportData } from "./models/technicalSupport.model";
-import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import FormEditTechnicalSupport from "./components/FormEditTechnicalSupport";
+import { useNavigate } from "react-router-dom";
 
 function AdminTechnicalSupport(): JSX.Element {
+  const isAdminValue = localStorage.getItem("isAdmin");
+  const navigate = useNavigate();
   const [technicalSupporDataTable, setTechnicalSupporDataTable] = useState<
     ApiTechnicalSupportData[]
   >([]);
@@ -24,6 +26,9 @@ function AdminTechnicalSupport(): JSX.Element {
   };
 
   useEffect(() => {
+    if (isAdminValue !== "1") {
+      navigate("/");
+    }
     getAllTechnicalSupport();
   }, []);
 

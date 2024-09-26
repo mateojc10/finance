@@ -13,7 +13,13 @@ function TableTransfer({ tableTransaction }: Props) {
       emptyMessage="No existen transacciones"
     >
       <Column field="idWithdrawalRequest" header="transacción id" />
-      <Column field="idLottery" header="Sorteo #" />
+      <Column
+        field="idLottery"
+        header="Concepto"
+        body={(rowData) => (
+          <p>{rowData?.lottery?.description}Solicitud de retiro</p>
+        )}
+      />
       <Column field="dateWithdrawalRequest" header="Fecha registro" />
       <Column field="responseWithdrawalRequest" header="Respuesta" />
       <Column field="dateResponse" header="Fecha respuesta" />

@@ -11,15 +11,18 @@ import { getDataUserByIdservice } from "../Profile/services/profile.service";
 import { Card } from "primereact/card";
 import SidebarComponent from "../../components/Sidebar/SidebarComponent";
 import StaticsData from "./components/StaticsData";
+import logoBifinancing from "../../assets/img/logo-bifinancing.jpeg";
+import { Image } from "primereact/image";
 
 function Home(): JSX.Element {
   const activeSession = localStorage.getItem("activeSession");
   const idUser = localStorage.getItem("idUser");
-  const role = localStorage.getItem("role");
+  const validateRole = localStorage.getItem("role");
   const toast = useRef<Toast>(null);
   const [idLottery, setIdLottery] = useState<number>(0);
   const [validateRequestPending, setValidateRequestPending] =
     useState<boolean>(false);
+  const [balanceProfileUser, setBalanceProfileUser] = useState<number>(0);
   const accept = () => {
     const dataForRegisterRequest: RegisterWithdrawalRequest = {
       idUser: idUser ? +idUser : 0,
@@ -52,11 +55,13 @@ function Home(): JSX.Element {
   };
   const footer = (
     <>
-      <Button
-        label="Solicitar retiro"
-        icon="pi pi-check"
-        onClick={requestSaves}
-      />
+      {idLottery ? (
+        <Button
+          label="Solicitar retiro"
+          icon="pi pi-check"
+          onClick={requestSaves}
+        />
+      ) : null}
     </>
   );
   const getActiveRequest = async (): Promise<void> => {
@@ -66,7 +71,6 @@ function Home(): JSX.Element {
 
         if (response.length > 0) {
           // setDrawalRequestData(response);
-
           const validateResponseEmpty = response.filter(
             (item) => item.responseWithdrawalRequest === null
           );
@@ -83,9 +87,12 @@ function Home(): JSX.Element {
     try {
       if (idUser) {
         const response = await getDataUserByIdservice(+idUser);
-        if (response.data) {
+        setBalanceProfileUser(response?.data?.balance);
+
+        if (response?.data) {
           setIdLottery(response.data.lottery[0].idLottery);
         }
+        console.log("response", response);
       } else {
         window.location.href = "/";
       }
@@ -117,7 +124,25 @@ function Home(): JSX.Element {
   return (
     <div className="m-8 grid">
       <div className="col-12 text-center mb-4">
-        <h2>Bienvenido a Bifinancing</h2>
+        <div className="col-12 md:col-12 sm:col-12">
+          <div className="grid">
+            <div className="col">
+              <h2>Bienvenido a Bifinancing</h2>
+              <h2 className="text-xl text-center col-12 md:col-12 sm:col-12 text-yellow-500">
+                Saldo: ${balanceProfileUser} USD
+              </h2>
+            </div>
+            <div className="col-12 md:col-4 sm:col-12 mr-4">
+              <div className="card flex justify-content-center">
+                <Image
+                  src={logoBifinancing}
+                  alt="Logo bifinancing"
+                  width="250"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <>
           {validateRequestPending ? (
             <h3 className="bg-green-800 p-3">
@@ -133,6 +158,7 @@ function Home(): JSX.Element {
 
                   <Toast ref={toast} />
                   <ConfirmDialog />
+
                   <Card
                     title="Solicitud de retiro"
                     subTitle="genera la solicitud de retiro de saldo"

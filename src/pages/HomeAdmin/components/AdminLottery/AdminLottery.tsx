@@ -7,8 +7,11 @@ import TableLottery from "./components/TableLottery";
 import { Dialog } from "primereact/dialog";
 import FormCreateLottery from "./components/FormCreateLottery";
 import FormEditLottery from "./components/FormEditLottery";
+import { useNavigate } from "react-router-dom";
 
 function AdminLottery(): JSX.Element {
+  const isAdminValue = localStorage.getItem("isAdmin");
+  const navigate = useNavigate();
   const [lotteryData, setLotteryData] = useState<ApiLotteryData[]>([]);
   const [dataLotteryRow, setDataLotteryRow] = useState<ApiLotteryData>();
   const [dialogEditLottery, setDialogEditLottery] = useState(false);
@@ -22,6 +25,9 @@ function AdminLottery(): JSX.Element {
   };
 
   useEffect(() => {
+    if (isAdminValue !== "1") {
+      navigate("/");
+    }
     getAllLottery();
   }, []);
   return (

@@ -3,10 +3,7 @@ import {
   UpdateFormWithdrawalRequest,
   WithdrawalRequest,
 } from "../../../../Transfer/models/transfer.model";
-import {
-  withdrawalRequestTableResponseDataAdapter,
-  withdrawalRequestTableWithoutResponseDataAdapter,
-} from "../adapters/withdrawalRequest.adapter";
+import { withdrawalRequestTableWithoutResponseDataAdapter } from "../adapters/withdrawalRequest.adapter";
 import { ApiBasicResponse } from "../../../../../models/apiBasicResponse.model";
 
 export const getAllWithdrawalRequestWithOutResponseService = async (): Promise<

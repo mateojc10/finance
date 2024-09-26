@@ -11,6 +11,7 @@ export interface ProfileUserData {
   role: string;
   state: true;
   password?: string;
+  balance: number;
   technicalSupport?: TechnicalSupportData[];
   withdrawalRequest?: WithdrawalRequest[];
   lottery?: ApiLotteryData[];
@@ -22,6 +23,7 @@ export interface CreateUserForm {
   lastName: string;
   phone: string;
   role: string;
+  balance: number;
 }
 export interface EditUserAdminForm {
   idUser: number;
@@ -31,6 +33,7 @@ export interface EditUserAdminForm {
   phone: string;
   role: string;
   state: boolean;
+  balance: number;
 }
 export interface DropdownField {
   name: string;

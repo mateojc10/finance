@@ -22,6 +22,7 @@ function FormEditUser({
   const [phone, setPhone] = useState<string>(dataUser.phone);
   const [role, setRole] = useState<string>(dataUser.role);
   const [state, setState] = useState<boolean>(dataUser.state);
+  const [balance, setBalance] = useState<number>(dataUser.balance);
   const onSubmit = async () => {
     try {
       const data: EditUserAdminForm = {
@@ -32,6 +33,7 @@ function FormEditUser({
         phone,
         role,
         state,
+        balance,
       };
 
       const response = await editUserAdminService(data);
@@ -108,6 +110,17 @@ function FormEditUser({
             onChange={(e: DropdownChangeEvent) => setRole(e.target.value)}
             optionValue="code"
           />
+        </div>
+        <div className="col-12 md:col-6 sm:col-12">
+          <InputText
+            type="number"
+            className="w-full"
+            placeholder="Saldo"
+            value={String(balance)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setBalance(Number(e.target.value))
+            }
+          ></InputText>
         </div>
         <div className="col-12 md:col-6 sm:col-12">
           <label

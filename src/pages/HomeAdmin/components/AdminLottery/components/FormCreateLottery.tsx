@@ -1,4 +1,3 @@
-import { on } from "events";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { InputText } from "primereact/inputtext";
@@ -6,7 +5,6 @@ import { Nullable } from "primereact/ts-helpers";
 import { useEffect, useState } from "react";
 import { createLotteryService } from "../services/adminLottery.service";
 import { CreateLotteryForm } from "../model/adminLottery.model";
-import { formatDate } from "../../../../../utilities/dateFormat";
 
 interface Props {
   getAllLotteryData: () => void;

@@ -6,7 +6,7 @@ export const getAllTransferByUserService = async (
 ): Promise<WithdrawalRequest[]> => {
   const urlLogin =
     process.env.REACT_APP_API_HOST +
-    `withdrawal-request/all-withdrawal-request/${idUser}`;
+    `withdrawal-request/all-withdrawal-request-by-id-user/${idUser}`;
   const responseWithAxios = await axios.get(urlLogin);
   return responseWithAxios.data.data;
 };

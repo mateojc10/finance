@@ -79,6 +79,12 @@ function TableUsers({
           style={{ width: "25%" }}
         ></Column>
         <Column
+          field="balance"
+          header="Saldo"
+          sortable
+          style={{ width: "25%" }}
+        ></Column>
+        <Column
           field="role"
           header="Rol"
           sortable
