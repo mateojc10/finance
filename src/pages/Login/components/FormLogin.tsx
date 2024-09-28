@@ -18,6 +18,7 @@ function FormLogin(): JSX.Element {
 
   const navigate = useNavigate();
   const onSubmit: SubmitHandler<FormAccessLogin> = async () => {
+    setActiveButton(false);
     try {
       const data: AuthAccessLogin = {
         user: valueUser,
@@ -42,7 +43,8 @@ function FormLogin(): JSX.Element {
         setValidateAccess(true);
       }
     } catch (error) {
-      setValidateAccess(true);
+    } finally {
+      setActiveButton(false);
     }
   };
   useEffect(() => {
@@ -83,7 +85,12 @@ function FormLogin(): JSX.Element {
         )}
       </div>
       <div className=" m-4 text-center">
-        <Button type="submit" label="ingresar" disabled={!activeButton} />
+        <Button
+          type="submit"
+          label="ingresar"
+          disabled={!activeButton}
+          className="text-white"
+        />
       </div>
     </form>
   );

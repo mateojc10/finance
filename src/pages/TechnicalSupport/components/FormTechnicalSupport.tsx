@@ -1,17 +1,22 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createThecnicalSupportRequestService } from "../services/technicalSupport.services";
+import { ToastControlBackendModel } from "../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 interface Props {
   idUser: number;
   getAllTechnicalSupportByUser: () => void;
+  setMessageBackend: (value: ToastControlBackendModel) => void;
 }
 function FormTechnicalSupport({
   idUser,
   getAllTechnicalSupportByUser,
+  setMessageBackend,
 }: Props): JSX.Element {
   const [description, setDescription] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const onSubmit = async () => {
+    setLoading(true);
     try {
       const data = {
         idUser: Number(idUser),
@@ -21,10 +26,31 @@ function FormTechnicalSupport({
       if (response.statusCode < 299) {
         getAllTechnicalSupportByUser();
         setDescription("");
-      } else {
+        setMessageBackend({
+          severityValue: "success",
+          detailValue: "Se ha enviado la consulta",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        severityValue: "error",
+        detailValue: "Error al enviar la consulta",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (description.length > 0) {
+      setLoading(false);
+    }
+  }, [description]);
+
   return (
     <form className="grid text-center" onSubmit={onSubmit}>
       <div className="col-12 md:col-6 sm:col-12">
@@ -42,7 +68,7 @@ function FormTechnicalSupport({
           className="text-white"
           label="Enviar"
           type="submit"
-          disabled={description.length < 3}
+          disabled={loading}
         />
       </div>
     </form>

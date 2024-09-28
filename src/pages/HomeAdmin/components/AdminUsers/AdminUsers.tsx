@@ -13,6 +13,8 @@ import TableLotteryToUser from "./components/TableLotteryToUser";
 import { getDataUserByIdservice } from "../../../Profile/services/profile.service";
 import { ApiLotteryData } from "../AdminLottery/model/adminLottery.model";
 import { useNavigate } from "react-router-dom";
+import ToastBackControl from "../../../../components/Sidebar/ToastBackControl/ToastBackControl";
+import { ToastControlBackendModel } from "../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 
 function AdminUsers(): JSX.Element {
   const isAdminValue = localStorage.getItem("isAdmin");
@@ -28,6 +30,14 @@ function AdminUsers(): JSX.Element {
   const [dataLotteryForUser, setDataLotteryForUser] = useState<
     ApiLotteryData[]
   >([]);
+
+  const [messageBackend, setMessageBackend] =
+    useState<ToastControlBackendModel>({
+      severityValue: "info",
+      detailValue: "",
+      lifeValue: 3000,
+      validateShowMessage: false,
+    });
   const getAllUsersData = async () => {
     try {
       const response = await getAllUsersService();
@@ -56,6 +66,14 @@ function AdminUsers(): JSX.Element {
 
   return (
     <>
+      {messageBackend.validateShowMessage && (
+        <ToastBackControl
+          validateShowMessage={messageBackend.validateShowMessage}
+          detailValue={messageBackend.detailValue}
+          lifeValue={messageBackend.lifeValue}
+          severityValue={messageBackend.severityValue}
+        />
+      )}
       <TabMenuAdmin />
       <div className="grid">
         <div className="col-12 md:col-12 sm:col-12 text-center">
@@ -64,8 +82,12 @@ function AdminUsers(): JSX.Element {
 
         <div className="col-12 md:col-12 sm:col-12 m-4">
           <h3>Crear nuevo usuario </h3>
-          <FormCreateUser getAllUsersData={getAllUsersData} />
+          <FormCreateUser
+            getAllUsersData={getAllUsersData}
+            setMessageBackend={setMessageBackend}
+          />
         </div>
+
         <div className="col-12 md:col-12 sm:col-12 m-4">
           <TableUsers
             setDialogChangePasswordUser={setDialogChangePasswordUser}
@@ -88,6 +110,7 @@ function AdminUsers(): JSX.Element {
                 getAllUsersData={getAllUsersData}
                 setDialogEditUser={setDialogEditUser}
                 key="edit-user"
+                setMessageBackend={setMessageBackend}
               />
             </Dialog>
             <Dialog
@@ -100,6 +123,7 @@ function AdminUsers(): JSX.Element {
                 getAllUsersData={getAllUsersData}
                 setDialogChangePasswordUser={setDialogChangePasswordUser}
                 key="change-password-user"
+                setMessageBackend={setMessageBackend}
               />
             </Dialog>
 
@@ -114,9 +138,19 @@ function AdminUsers(): JSX.Element {
                   setDialogLotteryToUser={setDialogLotteryToUser}
                   idUser={dataUser.idUser}
                   key="register-lottery"
+                  setMessageBackend={setMessageBackend}
                 />
-                {dataLotteryForUser.length > 0 && (
-                  <TableLotteryToUser dataLotteryForUser={dataLotteryForUser} />
+                {dataLotteryForUser.length > 0 ? (
+                  <>
+                    <h2 className="m-4 text-center">Sorteos asociados</h2>
+                    <TableLotteryToUser
+                      dataLotteryForUser={dataLotteryForUser}
+                    />
+                  </>
+                ) : (
+                  <h2 className="p-error text-center">
+                    No tiene sorteos asociados
+                  </h2>
                 )}
               </>
             </Dialog>

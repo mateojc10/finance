@@ -17,7 +17,6 @@ import { Image } from "primereact/image";
 function Home(): JSX.Element {
   const activeSession = localStorage.getItem("activeSession");
   const idUser = localStorage.getItem("idUser");
-  const validateRole = localStorage.getItem("role");
   const toast = useRef<Toast>(null);
   const [idLottery, setIdLottery] = useState<number>(0);
   const [validateRequestPending, setValidateRequestPending] =
@@ -92,7 +91,6 @@ function Home(): JSX.Element {
         if (response?.data) {
           setIdLottery(response.data.lottery[0].idLottery);
         }
-        console.log("response", response);
       } else {
         window.location.href = "/";
       }

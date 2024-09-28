@@ -6,15 +6,18 @@ import { Calendar } from "primereact/calendar";
 import { updateLotteryService } from "../services/adminLottery.service";
 import { InputText } from "primereact/inputtext";
 import { InputSwitch } from "primereact/inputswitch";
+import { ToastControlBackendModel } from "../../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 interface Props {
   getAllLotteryData: () => void;
   setDialogEditLottery: (data: boolean) => void;
   dataLottery: ApiLotteryData;
+  setMessageBackend: (value: ToastControlBackendModel) => void;
 }
 function FormEditLottery({
   getAllLotteryData,
   setDialogEditLottery,
   dataLottery,
+  setMessageBackend,
 }: Props): JSX.Element {
   const dateDb = new Date(dataLottery.dateLottery);
   const [descriptionLottery, setDescriptionLottery] = useState<string>(
@@ -32,6 +35,7 @@ function FormEditLottery({
     dataLottery.numberLottery
   );
   const onSubmit = async () => {
+    setValidateForm(false);
     try {
       const data: UpdateLotteryForm = {
         descriptionLottery,
@@ -47,8 +51,23 @@ function FormEditLottery({
       if (response.statusCode < 299) {
         getAllLotteryData();
         setDialogEditLottery(false);
+        setMessageBackend({
+          detailValue: "Sorteo editado con exito",
+          severityValue: "success",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        detailValue: "Error al editar el sorteo",
+        severityValue: "error",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setValidateForm(true);
+    }
   };
 
   useEffect(() => {

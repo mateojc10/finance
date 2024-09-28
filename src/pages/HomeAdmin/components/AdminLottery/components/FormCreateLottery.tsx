@@ -5,17 +5,23 @@ import { Nullable } from "primereact/ts-helpers";
 import { useEffect, useState } from "react";
 import { createLotteryService } from "../services/adminLottery.service";
 import { CreateLotteryForm } from "../model/adminLottery.model";
+import { ToastControlBackendModel } from "../../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 
 interface Props {
   getAllLotteryData: () => void;
+  setMessageBackend: (value: ToastControlBackendModel) => void;
 }
-function FormCreateLottery({ getAllLotteryData }: Props): JSX.Element {
+function FormCreateLottery({
+  getAllLotteryData,
+  setMessageBackend,
+}: Props): JSX.Element {
   const [descriptionLottery, setDescriptionLottery] = useState<string>("");
   const [rewardLottery, setRewardLottery] = useState<number>(0);
   const [dateEndLottery, setDateEndLottery] = useState<Nullable<Date>>(null);
   const [validateForm, setValidateForm] = useState(false);
 
   const onSubmit = async () => {
+    setValidateForm(false);
     try {
       const data: CreateLotteryForm = {
         descriptionLottery,
@@ -27,8 +33,23 @@ function FormCreateLottery({ getAllLotteryData }: Props): JSX.Element {
       const response = await createLotteryService(data);
       if (response.statusCode < 299) {
         getAllLotteryData();
+        setMessageBackend({
+          detailValue: "Sorteo creado con éxito",
+          severityValue: "success",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        detailValue: "Error al crear el sorteo",
+        severityValue: "error",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setValidateForm(true);
+    }
   };
   useEffect(() => {
     if (

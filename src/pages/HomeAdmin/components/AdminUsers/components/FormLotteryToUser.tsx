@@ -8,32 +8,49 @@ import {
 import { lotteryActiveDataDropdownAdapter } from "../adapters/adminUser.adapter";
 import { Button } from "primereact/button";
 import { associateLotteryService } from "../services/adminUser.service";
+import { ToastControlBackendModel } from "../../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 
 interface Props {
   getAllUsersData: () => void;
   setDialogLotteryToUser: (data: boolean) => void;
   idUser: number;
+  setMessageBackend: (value: ToastControlBackendModel) => void;
 }
 function FormLotteryToUser({
   getAllUsersData,
   setDialogLotteryToUser,
   idUser,
+  setMessageBackend,
 }: Props): JSX.Element {
   const [lotteryData, setLotteryData] = useState<DropdownField[]>([]);
   const [lottery, setLottery] = useState<string>();
+  const [loading, setLoading] = useState(true);
   const getAllLotteryActive = async () => {
     try {
       const getAllLottery = await getAllLotteryService();
       if (getAllLottery.length > 0) {
         setLotteryData(lotteryActiveDataDropdownAdapter(getAllLottery));
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        detailValue: "Ocurrio un error al obtener los sorteos activos",
+        severityValue: "error",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    }
   };
 
   useEffect(() => {
     getAllLotteryActive();
   }, []);
+  useEffect(() => {
+    if (lottery) {
+      setLoading(false);
+    }
+  }, [lottery]);
   const onSubmit = async () => {
+    setLoading(true);
     try {
       if (lottery) {
         const dataForUpdate: AssociateLotteryToUser = {
@@ -44,9 +61,24 @@ function FormLotteryToUser({
         if (response) {
           getAllUsersData();
           setDialogLotteryToUser(false);
+          setMessageBackend({
+            detailValue: "Sorteo asociado con exito",
+            severityValue: "success",
+            lifeValue: 3000,
+            validateShowMessage: true,
+          });
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        detailValue: "Ocurrio un error al asociar el sorteo",
+        severityValue: "error",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div>
@@ -66,8 +98,8 @@ function FormLotteryToUser({
         <div className="col-12 md:col-4 sm:col-12">
           <Button
             className="mt-4 text-white"
-            label="Crear Sorteo"
-            disabled={lottery ? false : true}
+            label="Registrar"
+            disabled={loading}
           />
         </div>
       </form>

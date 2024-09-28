@@ -5,10 +5,15 @@ import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { createUserService } from "../services/adminUser.service";
 import { roles } from "../../../../../utilities/dropdownDataBase";
+import { ToastControlBackendModel } from "../../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 interface Props {
   getAllUsersData: () => void;
+  setMessageBackend: (value: ToastControlBackendModel) => void;
 }
-function FormCreateUser({ getAllUsersData }: Props): JSX.Element {
+function FormCreateUser({
+  getAllUsersData,
+  setMessageBackend,
+}: Props): JSX.Element {
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -26,6 +31,7 @@ function FormCreateUser({ getAllUsersData }: Props): JSX.Element {
     }
   }, [role, user, password, name, lastName, phone]);
   const onSubmit = async () => {
+    setDisabledButton(true);
     try {
       const data: CreateUserForm = {
         user,
@@ -39,8 +45,23 @@ function FormCreateUser({ getAllUsersData }: Props): JSX.Element {
       const response = await createUserService(data);
       if (response.statusCode < 299) {
         getAllUsersData();
+        setMessageBackend({
+          detailValue: "Usuario creado con exito",
+          severityValue: "success",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        detailValue: "Ocurrio un error al crear el usuario",
+        severityValue: "error",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setDisabledButton(false);
+    }
   };
   return (
     <div>

@@ -5,12 +5,21 @@ import { TechnicalSupportData } from "./models/technicalSupport.model";
 import FormTechnicalSupport from "./components/FormTechnicalSupport";
 import TableTechnicalSupport from "./components/TableTechnicalSupport";
 import { dataTabletechnicalSupportAdapter as dataTableTechnicalSupportAdapter } from "./adapters/technicalSupport.adapters";
+import { ToastControlBackendModel } from "../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
+import ToastBackControl from "../../components/Sidebar/ToastBackControl/ToastBackControl";
 
 function TechnicalSupport(): JSX.Element {
   const idUser = localStorage.getItem("idUser");
   const [technicalSupportData, setTechnicalSupportData] = useState<
     TechnicalSupportData[]
   >([]);
+  const [messageBackend, setMessageBackend] =
+    useState<ToastControlBackendModel>({
+      severityValue: "info",
+      detailValue: "",
+      lifeValue: 3000,
+      validateShowMessage: false,
+    });
   const getAllTechnicalSupportByUser = async (): Promise<void> => {
     try {
       if (idUser) {
@@ -33,6 +42,14 @@ function TechnicalSupport(): JSX.Element {
   return (
     <div className="grid m-6">
       <SidebarComponent />
+      {messageBackend.validateShowMessage && (
+        <ToastBackControl
+          validateShowMessage={messageBackend.validateShowMessage}
+          detailValue={messageBackend.detailValue}
+          lifeValue={messageBackend.lifeValue}
+          severityValue={messageBackend.severityValue}
+        />
+      )}
       {idUser && (
         <>
           <div className="col-12 md:col-12 sm:col-12 m-4 text-center">
@@ -42,6 +59,7 @@ function TechnicalSupport(): JSX.Element {
             <FormTechnicalSupport
               idUser={+idUser}
               getAllTechnicalSupportByUser={getAllTechnicalSupportByUser}
+              setMessageBackend={setMessageBackend}
             />
           </div>
           {technicalSupportData.length > 0 ? (

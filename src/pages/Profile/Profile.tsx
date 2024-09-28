@@ -12,6 +12,8 @@ import {
 } from "./services/profile.service";
 import { EditProfile } from "./models/Profile.model";
 import { ProfileUserData } from "../HomeAdmin/components/AdminUsers/models/adminUsers.model";
+import ToastBackControl from "../../components/Sidebar/ToastBackControl/ToastBackControl";
+import { ToastControlBackendModel } from "../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 
 function Profile(): JSX.Element {
   const idUser = localStorage.getItem("idUser");
@@ -21,7 +23,14 @@ function Profile(): JSX.Element {
   const [name, setName] = useState<string>();
   const [lastName, setLastName] = useState<string>();
   const [phone, setPhone] = useState<string>();
-
+  const [loading, setLoading] = useState(false);
+  const [messageBackend, setMessageBackend] =
+    useState<ToastControlBackendModel>({
+      severityValue: "info",
+      detailValue: "",
+      lifeValue: 3000,
+      validateShowMessage: false,
+    });
   const getDataProfile = async (): Promise<void> => {
     try {
       if (idUser) {
@@ -38,6 +47,7 @@ function Profile(): JSX.Element {
     window.removeEventListener("beforeunload", localStorage.clear);
   }, []);
   const onSubmit = async (): Promise<void> => {
+    setLoading(true);
     try {
       const dataUpdateProfile: EditProfile = {
         idUser: Number(idUser),
@@ -49,13 +59,35 @@ function Profile(): JSX.Element {
       if (response.statusCode < 299) {
         getDataProfile();
         setEditShape(true);
-      } else {
+        setMessageBackend({
+          severityValue: "success",
+          detailValue: "Se ha actualizado el perfil",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        severityValue: "error",
+        detailValue: "Error al actualizar el perfil",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="mt-8">
       <SidebarComponent />
+      {messageBackend.validateShowMessage && (
+        <ToastBackControl
+          validateShowMessage={messageBackend.validateShowMessage}
+          detailValue={messageBackend.detailValue}
+          lifeValue={messageBackend.lifeValue}
+          severityValue={messageBackend.severityValue}
+        />
+      )}
       {dataProfile && (
         <div className="grid text-center">
           <div className="col-12">
@@ -121,7 +153,11 @@ function Profile(): JSX.Element {
 
           {editShape && (
             <div className="col-12">
-              <Button label="Editar" onClick={() => setEditShape(false)} />
+              <Button
+                label="Editar"
+                onClick={() => setEditShape(false)}
+                loading={loading}
+              />
             </div>
           )}
         </div>

@@ -7,6 +7,8 @@ import { WithdrawalRequest } from "../../../Transfer/models/transfer.model";
 import { Dialog } from "primereact/dialog";
 import FormEditWitdrawalRequest from "./components/FormEditWitdrawalRequest";
 import { useNavigate } from "react-router-dom";
+import ToastBackControl from "../../../../components/Sidebar/ToastBackControl/ToastBackControl";
+import { ToastControlBackendModel } from "../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 
 function AdminWithdrawalRequest(): JSX.Element {
   const isAdminValue = localStorage.getItem("isAdmin");
@@ -17,6 +19,13 @@ function AdminWithdrawalRequest(): JSX.Element {
   const [dataWithdrawalResponseRow, setDataWithdrawalResponseRow] =
     useState<WithdrawalRequest>();
   const [dialogResponse, setDialogResponse] = useState<boolean>(true);
+  const [messageBackend, setMessageBackend] =
+    useState<ToastControlBackendModel>({
+      severityValue: "info",
+      detailValue: "",
+      lifeValue: 3000,
+      validateShowMessage: false,
+    });
   const getAllWithdrawalRequest = async () => {
     try {
       const response = await getAllWithdrawalRequestService();
@@ -38,6 +47,14 @@ function AdminWithdrawalRequest(): JSX.Element {
         <div className="col-12 md:col-12 sm:col-12">
           <h1>Solicitudes de retiro</h1>
         </div>
+        {messageBackend.validateShowMessage && (
+          <ToastBackControl
+            validateShowMessage={messageBackend.validateShowMessage}
+            detailValue={messageBackend.detailValue}
+            lifeValue={messageBackend.lifeValue}
+            severityValue={messageBackend.severityValue}
+          />
+        )}
         <div className="col-12 m-6">
           <TableWithdrawalRequest
             setDialogResponse={setDialogResponse}
@@ -57,6 +74,7 @@ function AdminWithdrawalRequest(): JSX.Element {
               idWithdrawalRequest={
                 dataWithdrawalResponseRow?.idWithdrawalRequest
               }
+              setMessageBackend={setMessageBackend}
             />
           </Dialog>
         )}

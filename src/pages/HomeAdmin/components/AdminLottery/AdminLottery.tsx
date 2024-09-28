@@ -8,6 +8,8 @@ import { Dialog } from "primereact/dialog";
 import FormCreateLottery from "./components/FormCreateLottery";
 import FormEditLottery from "./components/FormEditLottery";
 import { useNavigate } from "react-router-dom";
+import { ToastControlBackendModel } from "../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
+import ToastBackControl from "../../../../components/Sidebar/ToastBackControl/ToastBackControl";
 
 function AdminLottery(): JSX.Element {
   const isAdminValue = localStorage.getItem("isAdmin");
@@ -15,6 +17,13 @@ function AdminLottery(): JSX.Element {
   const [lotteryData, setLotteryData] = useState<ApiLotteryData[]>([]);
   const [dataLotteryRow, setDataLotteryRow] = useState<ApiLotteryData>();
   const [dialogEditLottery, setDialogEditLottery] = useState(false);
+  const [messageBackend, setMessageBackend] =
+    useState<ToastControlBackendModel>({
+      severityValue: "info",
+      detailValue: "",
+      lifeValue: 3000,
+      validateShowMessage: false,
+    });
   const getAllLottery = async () => {
     try {
       const response = await getAllLotteryService();
@@ -36,8 +45,19 @@ function AdminLottery(): JSX.Element {
       <h2 className="text-center m-4">Administración de sorteos</h2>
 
       <>
+        {messageBackend.validateShowMessage && (
+          <ToastBackControl
+            validateShowMessage={messageBackend.validateShowMessage}
+            detailValue={messageBackend.detailValue}
+            lifeValue={messageBackend.lifeValue}
+            severityValue={messageBackend.severityValue}
+          />
+        )}
         <div className="col-12 md:col-8 text-center ml-8">
-          <FormCreateLottery getAllLotteryData={getAllLottery} />
+          <FormCreateLottery
+            getAllLotteryData={getAllLottery}
+            setMessageBackend={setMessageBackend}
+          />
         </div>
         {lotteryData.length > 0 && (
           <TableLottery
@@ -56,6 +76,7 @@ function AdminLottery(): JSX.Element {
               dataLottery={dataLotteryRow}
               getAllLotteryData={getAllLottery}
               setDialogEditLottery={setDialogEditLottery}
+              setMessageBackend={setMessageBackend}
             />
           </Dialog>
         )}

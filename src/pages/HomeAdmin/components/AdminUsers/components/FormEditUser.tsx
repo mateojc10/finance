@@ -6,15 +6,18 @@ import { roles } from "../../../../../utilities/dropdownDataBase";
 import { InputText } from "primereact/inputtext";
 import { InputSwitch } from "primereact/inputswitch";
 import { editUserAdminService } from "../services/adminUser.service";
+import { ToastControlBackendModel } from "../../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 interface Props {
   getAllUsersData: () => void;
   setDialogEditUser: (data: boolean) => void;
   dataUser: ProfileUserData;
+  setMessageBackend: (data: ToastControlBackendModel) => void;
 }
 function FormEditUser({
   getAllUsersData,
   setDialogEditUser,
   dataUser,
+  setMessageBackend,
 }: Props): JSX.Element {
   const [user, setUser] = useState<string>(dataUser.user);
   const [name, setName] = useState<string>(dataUser.name);
@@ -23,7 +26,9 @@ function FormEditUser({
   const [role, setRole] = useState<string>(dataUser.role);
   const [state, setState] = useState<boolean>(dataUser.state);
   const [balance, setBalance] = useState<number>(dataUser.balance);
+  const [loading, setLoading] = useState<boolean>(false);
   const onSubmit = async () => {
+    setLoading(true);
     try {
       const data: EditUserAdminForm = {
         idUser: dataUser.idUser,
@@ -40,8 +45,23 @@ function FormEditUser({
       if (response) {
         getAllUsersData();
         setDialogEditUser(false);
+        setMessageBackend({
+          detailValue: "Usuario editado con exito",
+          severityValue: "success",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        detailValue: "Ocurrio un error al editar el usuario",
+        severityValue: "error",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div>
@@ -133,7 +153,11 @@ function FormEditUser({
           <InputSwitch checked={state} onChange={(e) => setState(e.value)} />
         </div>
         <div className="col-12 md:col-6 sm:col-12 ">
-          <Button className="text-center text-white" label="Editar usuario" />
+          <Button
+            className="text-center text-white"
+            label="Editar usuario"
+            disabled={loading}
+          />
         </div>
       </form>
     </div>

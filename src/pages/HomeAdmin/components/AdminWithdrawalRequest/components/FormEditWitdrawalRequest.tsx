@@ -1,25 +1,28 @@
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UpdateFormWithdrawalRequest } from "../../../../Transfer/models/transfer.model";
 import { updateWithdrawalRequestService } from "../services/withdrawalRequest.service";
 import { Button } from "primereact/button";
+import { ToastControlBackendModel } from "../../../../../components/Sidebar/ToastBackControl/models/toastBackControl.model";
 interface Props {
   idWithdrawalRequest: number;
   getAllWithdrawalRequestData: () => void;
   setDialogEditWithdrawalRequest: (data: boolean) => void;
+  setMessageBackend: (value: ToastControlBackendModel) => void;
 }
 function FormEditWitdrawalRequest({
   idWithdrawalRequest,
   getAllWithdrawalRequestData,
   setDialogEditWithdrawalRequest,
+  setMessageBackend,
 }: Props): JSX.Element {
   const [responseWithdrawalRequest, setResponseWithdrawalRequest] =
     useState<string>("");
-
+  const [loading, setLoading] = useState(true);
   const onSubmit = async () => {
+    setLoading(true);
     try {
       const dateToday = new Date().toISOString().split("T")[0];
-
       const dataForUpdate: UpdateFormWithdrawalRequest = {
         idWithdrawalRequest,
         responseWithdrawalRequest,
@@ -31,9 +34,30 @@ function FormEditWitdrawalRequest({
       if (response) {
         getAllWithdrawalRequestData();
         setDialogEditWithdrawalRequest(false);
+        setMessageBackend({
+          severityValue: "success",
+          detailValue: "Respuesta registrada con exito",
+          lifeValue: 3000,
+          validateShowMessage: true,
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      setMessageBackend({
+        severityValue: "error",
+        detailValue: "Error al registrar respuesta",
+        lifeValue: 3000,
+        validateShowMessage: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (responseWithdrawalRequest.length > 2) {
+      setLoading(false);
+    }
+  }, [responseWithdrawalRequest]);
   return (
     <div>
       <form className="grid text-center">
@@ -45,10 +69,9 @@ function FormEditWitdrawalRequest({
             onChange={(e) => setResponseWithdrawalRequest(e.target.value)}
           />
           <Button
-            className="mt-2"
+            className="mt-2 text-white"
             label="Enviar"
-            onClick={onSubmit}
-            disabled={responseWithdrawalRequest.length > 2 ? false : true}
+            disabled={loading}
           />
         </div>
       </form>
