@@ -7,7 +7,7 @@ import { Badge } from "primereact/badge";
 import { FormAccessLogin } from "../Login/models/login.model";
 import { useForm } from "react-hook-form";
 import {
-  getDataUserByIdservice,
+  getDataUserByIdService,
   saveDataUserService,
 } from "./services/profile.service";
 import { EditProfile } from "./models/Profile.model";
@@ -34,7 +34,7 @@ function Profile(): JSX.Element {
   const getDataProfile = async (): Promise<void> => {
     try {
       if (idUser) {
-        const response = await getDataUserByIdservice(+idUser);
+        const response = await getDataUserByIdService(+idUser);
         if (response.data) {
           setDataProfile(response.data);
         }

@@ -14,7 +14,7 @@ function FormTechnicalSupport({
   setMessageBackend,
 }: Props): JSX.Element {
   const [description, setDescription] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const onSubmit = async () => {
     setLoading(true);
     try {
@@ -46,7 +46,7 @@ function FormTechnicalSupport({
   };
 
   useEffect(() => {
-    if (description.length > 0) {
+    if (description.length > 2) {
       setLoading(false);
     }
   }, [description]);

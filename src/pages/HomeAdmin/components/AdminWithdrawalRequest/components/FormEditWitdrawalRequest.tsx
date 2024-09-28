@@ -60,7 +60,7 @@ function FormEditWitdrawalRequest({
   }, [responseWithdrawalRequest]);
   return (
     <div>
-      <form className="grid text-center">
+      <form className="grid text-center" onSubmit={onSubmit}>
         <div className="col-12 md:col-12 sm:col-12">
           <InputText
             className="w-full"

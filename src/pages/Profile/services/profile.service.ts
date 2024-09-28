@@ -2,7 +2,7 @@ import axios from "axios";
 import { ApiBasicResponse } from "../../../models/apiBasicResponse.model";
 import { EditProfile } from "../models/Profile.model";
 
-export const getDataUserByIdservice = async (
+export const getDataUserByIdService = async (
   idUser: number
 ): Promise<ApiBasicResponse> => {
   const urlLogin =

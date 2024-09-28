@@ -7,7 +7,7 @@ import {
   validateActiveRequestService,
   withdrawalRegisterRequestService,
 } from "./services/home.service";
-import { getDataUserByIdservice } from "../Profile/services/profile.service";
+import { getDataUserByIdService } from "../Profile/services/profile.service";
 import { Card } from "primereact/card";
 import SidebarComponent from "../../components/Sidebar/SidebarComponent";
 import StaticsData from "./components/StaticsData";
@@ -67,9 +67,9 @@ function Home(): JSX.Element {
     try {
       if (idUser) {
         const response = await validateActiveRequestService(+idUser);
+        console.log("response", response);
 
         if (response.length > 0) {
-          // setDrawalRequestData(response);
           const validateResponseEmpty = response.filter(
             (item) => item.responseWithdrawalRequest === null
           );
@@ -85,8 +85,9 @@ function Home(): JSX.Element {
   const findDataUser = async (): Promise<void> => {
     try {
       if (idUser) {
-        const response = await getDataUserByIdservice(+idUser);
+        const response = await getDataUserByIdService(+idUser);
         setBalanceProfileUser(response?.data?.balance);
+        console.log("data", response?.data);
 
         if (response?.data) {
           setIdLottery(response.data.lottery[0].idLottery);
@@ -111,6 +112,7 @@ function Home(): JSX.Element {
       }
     } catch (error) {}
   };
+
   useEffect(() => {
     findDataUser();
     getActiveRequest();

@@ -10,7 +10,7 @@ import { userDataAdapter } from "./adapters/adminUser.adapter";
 import FormChangePassword from "./components/FormChangePassword";
 import FormLotteryToUser from "./components/FormLotteryToUser";
 import TableLotteryToUser from "./components/TableLotteryToUser";
-import { getDataUserByIdservice } from "../../../Profile/services/profile.service";
+import { getDataUserByIdService } from "../../../Profile/services/profile.service";
 import { ApiLotteryData } from "../AdminLottery/model/adminLottery.model";
 import { useNavigate } from "react-router-dom";
 import ToastBackControl from "../../../../components/Sidebar/ToastBackControl/ToastBackControl";
@@ -48,7 +48,7 @@ function AdminUsers(): JSX.Element {
   };
   const findLotteryByUser = async (idUser: number) => {
     try {
-      const response = await getDataUserByIdservice(idUser);
+      const response = await getDataUserByIdService(idUser);
       const { lottery } = response.data;
       if (lottery.length === 0) {
         setDataLotteryForUser([]);
