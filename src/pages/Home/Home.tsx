@@ -19,6 +19,11 @@ function Home(): JSX.Element {
   const idUser = localStorage.getItem("idUser");
   const toast = useRef<Toast>(null);
   const [idLottery, setIdLottery] = useState<number>(0);
+
+  const [numberLottery, setNumberLottery] = useState<number | null>(0);
+  const [descriptionLottery, setDescriptionLottery] = useState<string | null>(
+    ""
+  );
   const [validateRequestPending, setValidateRequestPending] =
     useState<boolean>(false);
   const [balanceProfileUser, setBalanceProfileUser] = useState<number>(0);
@@ -90,7 +95,9 @@ function Home(): JSX.Element {
         console.log("data", response?.data);
 
         if (response?.data) {
+          setNumberLottery(response.data.lottery[0].numberLottery);
           setIdLottery(response.data.lottery[0].idLottery);
+          setDescriptionLottery(response.data.lottery[0].descriptionLottery);
         }
       } else {
         window.location.href = "/";
@@ -152,10 +159,6 @@ function Home(): JSX.Element {
             <div className="grid">
               <div className="card flex justify-content-center md:col-4 sm:col-12">
                 <div className="col-12 md:col-6 sm:col-12">
-                  <h3 className="bg-red-800 p-3">
-                    No tienes solicitud de retiro pendientes
-                  </h3>
-
                   <Toast ref={toast} />
                   <ConfirmDialog />
 
@@ -168,7 +171,8 @@ function Home(): JSX.Element {
                     <p className="m-3">
                       Puedes realizar tu solicitud de retiro para el{" "}
                       <strong className="text-primary">
-                        sorteo #{idLottery}
+                        sorteo #{`${idLottery} ${descriptionLottery}`} número
+                        ganador #{numberLottery}
                       </strong>{" "}
                       dando clic en el botón
                       <strong> solicitar retiro</strong>, recuerda que el
