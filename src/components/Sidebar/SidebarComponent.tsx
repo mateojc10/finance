@@ -131,6 +131,13 @@ function SidebarComponent(): JSX.Element {
             onClick={() => navigate("/support")}
           />
         </div>
+        <div className="flex mt-2">
+          <Button
+            tooltip="Salida segura"
+            icon="pi pi-sign-out"
+            onClick={() => navigate("/")}
+          />
+        </div>
       </div>
     </>
   );

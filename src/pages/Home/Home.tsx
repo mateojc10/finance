@@ -171,8 +171,7 @@ function Home(): JSX.Element {
                     <p className="m-3">
                       Puedes realizar tu solicitud de retiro para el{" "}
                       <strong className="text-primary">
-                        sorteo #{`${idLottery} ${descriptionLottery}`} número
-                        ganador #{numberLottery}
+                        {descriptionLottery}
                       </strong>{" "}
                       dando clic en el botón
                       <strong> solicitar retiro</strong>, recuerda que el

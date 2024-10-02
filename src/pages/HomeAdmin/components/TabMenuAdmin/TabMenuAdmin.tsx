@@ -12,6 +12,11 @@ function TabMenuAdmin(): JSX.Element {
       icon: "pi pi-chart-line",
       url: "/admin/technical-support",
     },
+    {
+      label: "Cerrar sesión",
+      icon: "pi pi-sign-out",
+      url: "/",
+    },
   ];
   return (
     <div className="grid">
