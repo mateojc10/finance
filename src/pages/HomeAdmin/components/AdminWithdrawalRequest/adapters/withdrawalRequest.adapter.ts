@@ -21,7 +21,6 @@ export const withdrawalRequestTableResponseDataAdapter = (
   data: WithdrawalRequest[]
 ): WithdrawalRequest[] => {
   return data
-    .filter((data) => data.responseWithdrawalRequest)
     .map((data) => {
       return {
         ...data,

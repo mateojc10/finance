@@ -29,7 +29,6 @@ function AdminTechnicalSupport(): JSX.Element {
       const response = await getAllTechnicalSupportService();
       if (response) {
         setTechnicalSupporDataTable(response);
-        console.log(response);
       }
     } catch (error) {}
   };

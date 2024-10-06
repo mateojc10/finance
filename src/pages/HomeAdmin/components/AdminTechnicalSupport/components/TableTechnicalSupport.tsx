@@ -58,7 +58,6 @@ function TableTechnicalSupport({
               onClick={() => {
                 setRowData(data);
                 setShowDialogAddResponse(true);
-                console.log(data);
               }}
             ></Button>
           )}

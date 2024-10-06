@@ -20,7 +20,6 @@ function Home(): JSX.Element {
   const toast = useRef<Toast>(null);
   const [idLottery, setIdLottery] = useState<number>(0);
 
-  const [numberLottery, setNumberLottery] = useState<number | null>(0);
   const [descriptionLottery, setDescriptionLottery] = useState<string | null>(
     ""
   );
@@ -72,7 +71,6 @@ function Home(): JSX.Element {
     try {
       if (idUser) {
         const response = await validateActiveRequestService(+idUser);
-        console.log("response", response);
 
         if (response.length > 0) {
           const validateResponseEmpty = response.filter(
@@ -92,10 +90,8 @@ function Home(): JSX.Element {
       if (idUser) {
         const response = await getDataUserByIdService(+idUser);
         setBalanceProfileUser(response?.data?.balance);
-        console.log("data", response?.data);
 
         if (response?.data) {
-          setNumberLottery(response.data.lottery[0].numberLottery);
           setIdLottery(response.data.lottery[0].idLottery);
           setDescriptionLottery(response.data.lottery[0].descriptionLottery);
         }

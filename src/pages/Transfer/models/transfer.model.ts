@@ -18,3 +18,8 @@ export interface UpdateFormWithdrawalRequest {
   responseWithdrawalRequest: string;
   dateResponse: Date | string | null;
 }
+
+export interface ActuallyResponseIdLotteryIdUserRequest {
+  idUser: number;
+  idLottery: number;
+}

@@ -1,5 +1,8 @@
 import { DataTable } from "primereact/datatable";
-import { WithdrawalRequest } from "../../../../Transfer/models/transfer.model";
+import {
+  ActuallyResponseIdLotteryIdUserRequest,
+  WithdrawalRequest,
+} from "../../../../Transfer/models/transfer.model";
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
@@ -10,11 +13,19 @@ interface Props {
   dataWithoutResponse: WithdrawalRequest[];
   setDataWithoutResponseRow: (data: WithdrawalRequest) => void;
   setDialogResponse: (data: boolean) => void;
+  setDataWithResponseRow: (data: WithdrawalRequest) => void;
+  setDialogWithResponse: (data: boolean) => void;
+  actuallyResponseLottery: (
+    data: ActuallyResponseIdLotteryIdUserRequest
+  ) => void;
 }
 function TableWithdrawalRequest({
   dataWithoutResponse,
   setDataWithoutResponseRow,
   setDialogResponse,
+  setDataWithResponseRow,
+  setDialogWithResponse,
+  actuallyResponseLottery,
 }: Props): JSX.Element {
   const [globalFilter, setGlobalFilter] = useState<string | null>(null);
   const headerSearch = (
@@ -41,12 +52,16 @@ function TableWithdrawalRequest({
         rows={5}
         rowsPerPageOptions={[5, 10, 25, 50]}
       >
-        <Column field="idWithdrawalRequest" header="ID" />
-        <Column field={"user.name"} header="Nombre" />
-        <Column field={"user.lastName"} header="Apellido" />
-        <Column field={"user.phone"} header="Teléfono" />
-        <Column field="idLottery" header="Id Sorteo" />
-        <Column field="dateWithdrawalRequest" header="Fecha solicitud" />
+        <Column sortable field="idWithdrawalRequest" header="ID" />
+        <Column sortable field={"user.name"} header="Nombre" />
+        <Column sortable field={"user.lastName"} header="Apellido" />
+        <Column sortable field={"user.phone"} header="Teléfono" />
+        <Column sortable field="idLottery" header="Id Sorteo" />
+        <Column
+          sortable
+          field="dateWithdrawalRequest"
+          header="Fecha solicitud"
+        />
         <Column
           field="responseWithdrawalRequest"
           header="Respuesta"
@@ -69,9 +84,24 @@ function TableWithdrawalRequest({
                 icon="pi pi-pencil"
                 className="p-button-rounded p-button-info mr-2"
                 onClick={() => {
-                  console.log("data", data);
                   setDataWithoutResponseRow(data);
                   setDialogResponse(true);
+                }}
+              ></Button>
+              <Button
+                tooltip="Agregar respuesta"
+                tooltipOptions={{ position: "top" }}
+                icon="pi pi-plus"
+                className="p-button-rounded p-button-success mr-2"
+                onClick={() => {
+                  const dataForResponse: ActuallyResponseIdLotteryIdUserRequest =
+                    {
+                      idLottery: data.idLottery,
+                      idUser: data.user.idUser,
+                    };
+                  actuallyResponseLottery(dataForResponse);
+                  setDataWithResponseRow(data);
+                  setDialogWithResponse(true);
                 }}
               ></Button>
             </div>
