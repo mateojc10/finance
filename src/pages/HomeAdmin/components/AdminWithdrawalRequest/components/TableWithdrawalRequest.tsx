@@ -88,22 +88,24 @@ function TableWithdrawalRequest({
                   setDialogResponse(true);
                 }}
               ></Button>
-              <Button
-                tooltip="Agregar respuesta"
-                tooltipOptions={{ position: "top" }}
-                icon="pi pi-plus"
-                className="p-button-rounded p-button-success mr-2"
-                onClick={() => {
-                  const dataForResponse: ActuallyResponseIdLotteryIdUserRequest =
-                    {
-                      idLottery: data.idLottery,
-                      idUser: data.user.idUser,
-                    };
-                  actuallyResponseLottery(dataForResponse);
-                  setDataWithResponseRow(data);
-                  setDialogWithResponse(true);
-                }}
-              ></Button>
+              {data.responseWithdrawalRequest !== null && (
+                <Button
+                  tooltip="Agregar respuesta"
+                  tooltipOptions={{ position: "top" }}
+                  icon="pi pi-plus"
+                  className="p-button-rounded p-button-success mr-2"
+                  onClick={() => {
+                    const dataForResponse: ActuallyResponseIdLotteryIdUserRequest =
+                      {
+                        idLottery: data.idLottery,
+                        idUser: data.user.idUser,
+                      };
+                    actuallyResponseLottery(dataForResponse);
+                    setDataWithResponseRow(data);
+                    setDialogWithResponse(true);
+                  }}
+                ></Button>
+              )}
             </div>
           )}
         ></Column>
