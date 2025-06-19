@@ -132,8 +132,13 @@ function Home(): JSX.Element {
             <div className="col">
               <h2>Bienvenido a Bifinancing</h2>
               <h2 className="text-xl text-center col-12 md:col-12 sm:col-12 text-yellow-500">
-                Saldo: ${balanceProfileUser} USD
-              </h2>
+              Saldo: {new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+              }).format(balanceProfileUser)} COP
+            </h2>
             </div>
             <div className="col-12 md:col-4 sm:col-12 mr-4">
               <div className="card flex justify-content-center">
